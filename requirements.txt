@@ -1,0 +1,9 @@
+# Dependencies utama
+notebook>=6.5.0
+jupyterlab>=4.0.0
+pandas
+numpy
+matplotlib
+
+# Untuk keep-alive
+requests
