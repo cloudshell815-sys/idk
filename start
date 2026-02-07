@@ -1,0 +1,72 @@
+#!/bin/bash
+# Script utama yang dijalankan SAAT Binder mulai
+
+echo "========================================="
+echo "   Binder Persistent Session Starter     "
+echo "========================================="
+
+# Jalankan script keep-alive di background
+python /home/jovyan/keep_alive.py &
+
+# Simulasi aktivitas pengguna otomatis
+echo "Creating sample notebooks..."
+cat > /home/jovyan/welcome.ipynb << 'EOL'
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Welcome to Persistent Binder\n",
+    "\n",
+    "This session is configured to stay alive longer.\n",
+    "\n",
+    "**Tips untuk memperpanjang sesi:**\n",
+    "1. Script keep-alive berjalan otomatis\n",
+    "2. Session akan refresh setiap 5 menit\n",
+    "3. Gunakan notebook ini untuk bekerja\n",
+    "\n",
+    "**Perhatian:** Meski ada keep-alive, Binder tetap bisa timeout setelah ~12 jam."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Contoh code Python\n",
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt\n",
+    "\n",
+    "print(\"Libraries loaded successfully!\")\n",
+    "print(f\"Pandas version: {pd.__version__}\")\n",
+    "\n",
+    "# Buat sample data\n",
+    "data = pd.DataFrame({\n",
+    "    'x': np.random.randn(100),\n",
+    "    'y': np.random.randn(100)\n",
+    "})\n",
+    "\n",
+    "data.describe()"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
+EOL
+
+# Start Jupyter Notebook/Lab
+echo "Starting Jupyter Lab..."
+jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root \
+  --NotebookApp.token='' --NotebookApp.password='' \
+  --NotebookApp.default_url='/lab'
