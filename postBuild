@@ -1,0 +1,13 @@
+#!/bin/bash
+# Script yang dijalankan SETELAH environment dibangun
+
+# Install ekstensi Jupyter jika perlu
+pip install jupyter_contrib_nbextensions
+jupyter contrib nbextension install --user
+
+# Buat direktori untuk data persistensi (meski terbatas)
+mkdir -p /home/jovyan/persistent_data
+
+# Set permission
+chmod +x /home/jovyan/keep_alive.py
+chmod +x /home/jovyan/start
