@@ -1,13 +1,34 @@
 #!/bin/bash
-# Script yang dijalankan SETELAH environment dibangun
+# Pastikan semua script executable
 
-# Install ekstensi Jupyter jika perlu
-pip install jupyter_contrib_nbextensions
-jupyter contrib nbextension install --user
-
-# Buat direktori untuk data persistensi (meski terbatas)
-mkdir -p /home/jovyan/persistent_data
-
-# Set permission
-chmod +x /home/jovyan/keep_alive.py
 chmod +x /home/jovyan/start
+chmod +x /home/jovyan/keep_alive.py
+
+# Buat notebook default jika belum ada
+if [ ! -f /home/jovyan/welcome.ipynb ]; then
+    cat > /home/jovyan/welcome.ipynb << 'EOL'
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Binder Session\n",
+    "Server is running successfully!"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
+EOL
+fi
+
+echo "Setup completed!"
